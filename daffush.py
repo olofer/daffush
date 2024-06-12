@@ -2,8 +2,6 @@
 Example dash browser application visualizing basic diffusion model training/sampling.
 Uses a basic Random Fourier Features model to keep things simple.
 
-TODO: markdown section to document more notation (the RFF machinery specifically)
-TODO: sanitize & document with a short readme and a new repo on the github (!)
 TODO: use a more appropriate CSS fading effect -- local assets folder [less priority]
 TODO: a better JAX-powered version ? Different project "djaxsh" <- using PFGM++ machinery maybe?
       (save this for another project focusing on trajectory diffusion -- more important anyway)
@@ -449,7 +447,11 @@ def create_fitting_tab(session_id):
                     dcc.Markdown(
                         """
 #### Random Fourier Features model
-Featurization of $(x,t/T)$ is defined by length-scales $\sigma_x$, $\sigma_{t/T}$ as follows. First sample frequencies $\omega_x\sim\mathcal{N}(0,\sigma_x^2)$ and ... 
+- Featurization of $(x,t/T)$ is defined by length-scales $\sigma_x$, $\sigma_{t/T}$.
+- Sample $M/2$ frequencies (each) $\omega_x\sim\mathcal{N}(0,\sigma_x^2)$, $\omega_{t/T}\sim\mathcal{N}(0,\sigma_{t/T}^2)$ 
+- Define $M/2$ phases $\phi = \omega_x x + \omega_{t/T} t/T$
+- Define $M/2$ feature tuples $(\cos\phi, \sin\phi)$, stacking them into a $M$-dim. vector $\mathbf{h}(x,t/T)$.
+- The RFF model is now linear in $\mathbf{h}$: $\widehat{y}=\mathbf{h}^T\\beta$
 """,
                         mathjax=True,
                     ),
