@@ -19,7 +19,7 @@ class LSRFF:
         assert self.units % 2 == 0 and self.units > 0, "even number of units required"
         self.omega = np.row_stack(
             [
-                np.random.randn(self.units // 2) * self.sigma[k]
+                np.random.randn(self.units // 2) / self.sigma[k]
                 for k in range(self.inputs)
             ]
         )

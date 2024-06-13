@@ -1,11 +1,6 @@
 """
 Example dash browser application visualizing basic diffusion model training/sampling.
 Uses a basic Random Fourier Features model to keep things simple.
-
-TODO: use a more appropriate CSS fading effect -- local assets folder [less priority]
-TODO: a better JAX-powered version ? Different project "djaxsh" <- using PFGM++ machinery maybe?
-      (save this for another project focusing on trajectory diffusion -- more important anyway)
-
 """
 
 from dash import Dash, dcc, html, Input, Output, State, callback, ctx, no_update
@@ -447,11 +442,12 @@ def create_fitting_tab(session_id):
                     dcc.Markdown(
                         """
 #### Random Fourier Features model
-- Featurization of $(x,t/T)$ is defined by length-scales $\sigma_x$, $\sigma_{t/T}$.
-- Sample $M/2$ frequencies (each) $\omega_x\sim\mathcal{N}(0,\sigma_x^2)$, $\omega_{t/T}\sim\mathcal{N}(0,\sigma_{t/T}^2)$ 
-- Define $M/2$ phases $\phi = \omega_x x + \omega_{t/T} t/T$
-- Define $M/2$ feature tuples $(\cos\phi, \sin\phi)$, stacking them into a $M$-dim. vector $\mathbf{h}(x,t/T)$.
+- Featurization of $(x,\\tau=t/T)$ is defined by length-scales $\sigma_x$, $\sigma_{\\tau}$
+- Sample $M/2$ frequencies (each) $\omega_x\sim\mathcal{N}(0,\sigma_x^{-2})$, $\omega_{\\tau}\sim\mathcal{N}(0,\sigma_{\\tau}^{-2})$ 
+- Define $M/2$ phases $\phi = \omega_x x + \omega_{\\tau} \\tau$
+- Define $M/2$ feature tuples $(\cos\phi, \sin\phi)/\sqrt{M/2}$, stacking them into a $M$-dim. vector $\mathbf{h}(x,\\tau)$
 - The RFF model is now linear in $\mathbf{h}$: $\widehat{y}=\mathbf{h}^T\\beta$
+- It approximates a GP with kernel $\exp(-((\delta x / \sigma_x)^2+(\delta\\tau/\sigma_{\\tau})^2)/2)$
 """,
                         mathjax=True,
                     ),
