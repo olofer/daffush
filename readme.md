@@ -4,7 +4,13 @@ Multi-purpose (note-to-self) demonstration of the DDPM (Denoising Diffusion Prob
 
 ## Usage
 
+The `dash` development server can be started like this:
 ```
 python3 daffush.py
 ```
 Then point a browser to the (local) address/port being served.
+
+Another option is to start this way:
+```
+gunicorn daffush:server --workers 1
+```

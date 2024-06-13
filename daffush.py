@@ -759,3 +759,6 @@ def render_content(tab, sesh):
 
 if __name__ == "__main__":
     app.run_server(debug=True, threaded=False, use_reloader=False)
+else:
+    server = app.server
+
